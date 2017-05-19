@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "#' Miscellaneous tools mainly for data handling and manipulation\n#'\n#' These functions make life a bit easier when doing analysis and training for MOS point data\n#'\n\"_PACKAGE\"\n#> [1] \"_PACKAGE\"\n",
+    "created" : 1495103425855.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "4125829054",
+    "id" : "9576027A",
+    "lastKnownWriteTime" : 1495114003,
+    "last_content_update" : 1495114003511,
+    "path" : "~/statcal/R_projects/MOSpointutils/R/pkgname.R",
+    "project_path" : "R/pkgname.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 8,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

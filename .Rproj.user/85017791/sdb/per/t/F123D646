@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "### SOME USEFUL DATA HANDLING FUNCTIONS ###\n\n\n\n#' Add object to a list\n#'\n#' @description\n#' This function adds objects to the end of a list\n#' @usage lappend(lst, obj, listname)\n#' @details\n#' As the list can contain miscellaneous variable types, this function should also work regardless of the variable type. No thorough tests are done, however.\n#' @param lst a list to which object is added\n#' @param obj an object which is added\n#' @param listname name of the added object as it appers in the list\n#' @return the original list with the object added\n#' @export\n#' @examples\n#' all_station_lists <- lappend(all_station_lists,loaded_list$wmon,\n#' \"mos_stations_homogeneous_Europe\")\nlappend <- function(lst, obj, listname) {\n  lst[[length(lst)+1]] <- obj\n  names(lst)[[length(lst)]] <- listname\n  return(lst)\n}\n\n\n\n#' Test if x not in y\n#'\n#' @description This is the opposite function to the \\pkg{base} inline function \\%in\\%\n#' @usage x \\%notin\\% y\n#' @details \\pkg{base} inline function \\%in\\% is in reality written as \\%in\\% <- function(x, table) match(x, table, nomatch = 0) > 0,\n#' \\%notin\\% is written simply as \\%notin\\% <- function(x,y) !(x \\%in\\% y)\n#' @param x object which is matched in y\n#' @param y the list to what x is matched against\n#' @return\n#' A vector of the same length as x. A logical vector, indicating if a match was NOT located for each element of x: thus the values are TRUE or FALSE and never NA.\n#' @export\n`%notin%` <- function(x,y) !(x %in% y)\n\n\n\n#' If x is null then return y\n#'\n#' @description This is an inline function that provides a default value in cases when the result is NULL\n#' @usage x \\%||\\% y\n#' @details The whole code of this function is `\\%||\\%` <- function(x, y) if (!is.null(x)) x else y \\cr\n#' Typical use for this inline function is to provide a default value if a function gives NULL, e.g. function_that_might_return_null() \\%||\\% default value\n#' @param x Object which may return NULL (most likely a function)\n#' @param y Default value in case of NULL\n#' @return Either the value returned by x or default value y\n#' @export\n#' @seealso \\url{http://adv-r.had.co.nz/Functions.html}\n`%||%` <- function(x, y) if (!is.null(x)) x else y\n\n\n\n#' Converting integers to a boolean list\n#'\n#' @description Which (in \\pkg{base}) converts true/false values to integers, unwhich does the opposite (n corresponds to vector length where true values are assigned to)\n#' @usage unwhich(x,n)\n#' @details The function first creates n-length list of FALSE values. After this, indices x are replaced with TRUE values.\n#' @param x Integers that indicate TRUE values\n#' @param n Boolean list length\n#' @return Boolean list with length n\n#' @export\n#' @seealso \\url{http://adv-r.had.co.nz/Subsetting.html}\n#'\nunwhich <- function(x, n) {\n  out <- rep_len(FALSE, n)\n  out[x] <- TRUE\n  out\n}\n\n\n# # Very useful functions of Johanna Piipponen\n# source(\"functions_Johanna.R\")\n",
+    "created" : 1494849301352.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "506818422",
+    "id" : "F123D646",
+    "lastKnownWriteTime" : 1495110382,
+    "last_content_update" : 1495110382768,
+    "path" : "~/statcal/R_projects/MOSpointutils/R/functions_useful.R",
+    "project_path" : "R/functions_useful.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
