@@ -73,5 +73,53 @@ unwhich <- function(x, n) {
 }
 
 
+
+#' Defining time series with fixed intervals
+#'
+#' @description Define a regularly spaced time series
+#' @usage define_time_series(begin_date, end_date, interval_in_hours)
+#' @details Use POSIXct-type date-time stamps! Time series are rounded to nearest even 3-hour ({00,03,06,09,12,15,18,21}). Default values of the parameters correspond to dates used in MOS training (begin_date = "2011-12-01 00:00:00 GMT", end_date = Sys.time()).
+#' @param begin_date First date of the time series
+#' @param end_date All time stamps in the time series must be smaller than this last value
+#' @param interval_in_hours Interval of two consecutive time stamps in the time series
+#' @return A regularly spaced time series
+define_time_series <- function(begin_date=as.POSIXct("2011-12-01 00:00:00 GMT",tz="GMT"),end_date=with_tz(round.POSIXt(Sys.time(),"hours"),tz="GMT"),interval_in_hours=3) {
+  # First rounding to even hours
+  begin_date <- lubridate::with_tz(round.POSIXt(begin_date,"hours"),tz="GMT")
+  end_date <- lubridate::with_tz(round.POSIXt(end_date,"hours"),tz="GMT")
+  # Rounding timestamps to nearest 3 hour forecast time ({00,03,06,09,12,15,18,21})
+  begin_date <- begin_date - (as.numeric(format(round.POSIXt(begin_date, c("hours")),'%H'))%%3)*3600
+  end_date <- end_date - (as.numeric(format(round.POSIXt(end_date, c("hours")),'%H'))%%3)*3600
+  series <- seq(from=begin_date, to=end_date, by=paste0(interval_in_hours," hour"))
+  return(series)
+}
+
+
+
+
+#' Interpolating (timeseries) values
+#'
+#' @description This is a generic NA-interpolation switch wrapper which allows the use of several interpolation methods
+#' @usage Interpolate_timeseries(data_to_be_interpolated, interpolation_method, maximum_gap, ...)
+#' @details data_to_be_interpolated is 1-dimensional (without actual time stamps). It contains NA-values for the missing time stamps. Returned data is the same size but with interpolated values.
+#' @param data_to_be_interpolated 1-dimensional data with NA values.
+#' @param interpolation_method The selected interpolation method. ("repeat_previous","linear_interp","spline_interp","no_interp") are supported.
+#' @param maxgap Maximum gap (number of consecutive NA-values) allowed, which still is being interpolated
+#' @param ... Possible additional parameters passed to zoo-package interpolation functions
+#' @return Interpolated time series of same size as the input data.
+interpolate_NA_values <- function(data_to_be_interpolated, interpolation_method, maxgap, na.rm=FALSE, ...) {
+  if (interpolation_method %!in% c("repeat_previous","linear_interp","spline_interp","no_interp")) {
+    warning("check obs_interpolation_method! Not interpolating!")
+    return(data_to_be_interpolated)
+  }
+  switch(interpolation_method,
+         repeat_previous = zoo::na.locf(object=data_to_be_interpolated, ...),
+         linear_interp = zoo::na.approx(object=data_to_be_interpolated, ...),
+         spline_interp = zoo::na.spline(object=data_to_be_interpolated, ...),
+         no_interp = data_to_be_interpolated)
+}
+
+
+
 # # Very useful functions of Johanna Piipponen
 # source("functions_Johanna.R")

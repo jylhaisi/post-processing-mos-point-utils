@@ -1,14 +1,14 @@
 {
     "collab_server" : "",
-    "contents" : "Package: MOSpointutils\nType: Package\nTitle: Useful functions for MOS point forecasts\nVersion: 0.1.0\nAuthor: Jussi Ylhaisi <jussi.ylhaisi@fmi.fi>\nMaintainer: Jussi Ylhaisi <jussi.ylhaisi@fmi.fi>\nDescription: Some useful functions for MOS point training and analysis\n    Package contains both plotting tools and useful data handling tools\nImports: RColorBrewer, classInt, graphics\nLicense: NA\nEncoding: UTF-8\nLazyData: true\nRoxygenNote: 6.0.1\n",
+    "contents" : "Package: MOSpointutils\nType: Package\nTitle: Useful functions for MOS point forecasts\nVersion: 0.1.0\nAuthor: Jussi Ylhaisi <jussi.ylhaisi@fmi.fi>\nMaintainer: Jussi Ylhaisi <jussi.ylhaisi@fmi.fi>\nDescription: Some useful functions for MOS point training and analysis\n    Package contains both plotting tools and useful data handling tools\nImports: RColorBrewer, classInt, graphics, lubridate\nLicense: NA\nEncoding: UTF-8\nLazyData: true\nRoxygenNote: 6.0.1\n",
     "created" : 1494849698157.000,
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "1966834385",
+    "hash" : "265828663",
     "id" : "136A4B4",
-    "lastKnownWriteTime" : 1495111509,
-    "last_content_update" : 1495111509475,
+    "lastKnownWriteTime" : 1495431309,
+    "last_content_update" : 1495431309,
     "path" : "~/statcal/R_projects/MOSpointutils/DESCRIPTION",
     "project_path" : "DESCRIPTION",
     "properties" : {
