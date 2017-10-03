@@ -121,5 +121,25 @@ interpolate_NA_values <- function(data_to_be_interpolated, interpolation_method,
 
 
 
+#' A function that tests whether an object is either NULL _or_ a list of NULLs
+#'
+#' @description This is a small function that tests whether all elements in a list are either NULL values OR a list of NULL values
+#' @usage is.NullOb(list)
+#' @param list list which is checked
+#' @return A logical list of same size as input list
+is.NullOb <- function(x) is.null(x) | all(sapply(x, is.null))
+
+#' A function that recursively removes all only-NULL lists among nested lists
+#'
+#' @description This function removes all NULL lists from the input data. This function is recursive, so the input list can have as much nested lists as possible.
+#' @usage rmNullObs(list)
+#' @param list list where NULL values are removed
+#' @return A list without NULL values
+rmNullObs <- function(x) {
+  x <- Filter(Negate(is.NullOb), x)
+  lapply(x, function(x) if (is.list(x)) MOSpointutils::rmNullObs(x) else x)
+}
+
+
 # # Very useful functions of Johanna Piipponen
 # source("functions_Johanna.R")
