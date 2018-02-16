@@ -6,7 +6,7 @@ Author: Jussi Ylhaisi <jussi.ylhaisi@fmi.fi>
 Maintainer: Jussi Ylhaisi <jussi.ylhaisi@fmi.fi>
 Description: Some useful functions for MOS point training and analysis
     Package contains both plotting tools and useful data handling tools
-Imports: RColorBrewer, classInt, graphics, lubridate
+Imports: RColorBrewer, classInt, graphics, lubridate, zoo
 License: NA
 Encoding: UTF-8
 LazyData: true

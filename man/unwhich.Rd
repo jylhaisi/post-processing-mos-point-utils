@@ -2,7 +2,31 @@
 % Please edit documentation in R/functions_useful.R
 \name{unwhich}
 \alias{unwhich}
-\title{Converting integers to a boolean list}
+\title{#' Test if x not in y
+#'
+#' @description This is the opposite function to the \pkg{base} inline function \%in\%
+#' @usage notin(x, y)
+#' @details \pkg{base} infix function \%in\% is in reality written as \%in\% <- function(x, table) match(x, table, nomatch = 0) > 0,
+#' \%notin\% is written simply as \%notin\% <- function(x,y) !(x \%in\% y)
+#' @param x object which is matched in y
+#' @param y the list to what x is matched against
+#' @return
+#' A vector of the same length as x. A logical vector, indicating if a match was NOT located for each element of x: thus the values are TRUE or FALSE and never NA.
+#' @export
+notin <- function(x,y) !x %in% y
+#' If x is null then return y
+#'
+#' @description This is an inline function that provides a default value in cases when the result is NULL
+#' @usage x \%||\% y
+#' @details The whole code of this function is `\%||\%` <- function(x, y) if (!is.null(x)) x else y \cr
+#' Typical use for this inline function is to provide a default value if a function gives NULL, e.g. function_that_might_return_null() \%||\% default value
+#' @param x Object which may return NULL (most likely a function)
+#' @param y Default value in case of NULL
+#' @return Either the value returned by x or default value y
+#' @export
+#' @seealso \url{http://adv-r.had.co.nz/Functions.html}
+`%||%` <- function(x, y) if (!is.null(x)) x else y
+Converting integers to a boolean list}
 \usage{
 unwhich(x,n)
 }

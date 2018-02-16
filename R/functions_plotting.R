@@ -53,6 +53,106 @@ plot_points_on_map <- function(plot_data,plot_data_area,breaks,colorscale,point_
 }
 
 
+
+
+
+
+#' Plots conditional quantile plots from two datasets
+#'
+#' @description This function plots quantile-quantile plot from two datasets. This is an improved version from conditional.quantile() -function in "verification"-package
+#' @usage function(pred, obs, bins = NULL, thrs = c(10,20), main, na.rm=TRUE)
+#' @details add here
+#' @param pred Forecasted value. ([n,1] vector, n = No. of forecasts)
+#' @param obs Observed value.([n,1] vector, n = No. of observations)
+#' @param bins Bins for forecast and observed values. A minimum number of values are required to calculate meaningful statistics. So for variables that are continuous, such as temperature, it is frequently convenient to bin these values. ([m,1] vector, m = No. of bins)
+#' @param thrs The minimum number of values in a bin required to calculate the 25th and 75th quantiles and the 10th and 90th percentiles respectively. The median+min+max values will always be displayed. ( [2,1] vector)
+#' @param main Plot title
+#' @param ... plotting options
+#' @return A plot
+#' @export
+#'
+conditional.quantile.extremes <- function(pred, obs, bins = NULL, thrs = c(10,20), main = "Conditional quantiles", ylab = "Observed Value", xlab = "Forecast Value", na.rm=TRUE, ...) {
+
+  # minimum of 10 values are needed for this function to work!
+  if ((min(length(obs),length(pred)))<10) {
+    stop("a minimum sample size of 10 is required!")
+  }
+  # Remove those values which are missing values from either of the datasets!
+  if (na.rm==TRUE) {
+    indices <- intersect(which(!is.na(pred)),which(!is.na(obs)))
+    obs <- obs[indices]
+    pred <- pred[indices]
+    rm(indices)
+  }
+
+  old.par <- par(no.readonly = TRUE)
+  on.exit(par(old.par))
+  if (!is.null(bins)) {
+    if (min(bins) > min(obs) | max(bins) < max(obs)) {
+      warning("Observations outside of bin range. \n")
+    }
+    if (min(bins) > min(pred) | max(bins) < max(pred)) {
+      warning("Forecasts outside of bin range. \n")
+    }
+  }
+  else {
+    dat <- c(obs, pred)
+    min.d <- min(dat)
+    max.d <- max(dat)
+    bins <- seq(floor(min.d), ceiling(max.d), length = 11)
+  }
+  lo <- min(bins)
+  hi <- max(bins)
+  b <- bins[-length(bins)]
+  labs <- b + 0.5 * diff(bins)
+  obs.cut <- cut(obs, breaks = bins, include.lowest = TRUE, labels = labs)
+  obs.cut[is.na(obs.cut)] <- labs[1]
+  obs.cut <- as.numeric(as.character(obs.cut))
+  frcst.cut <- cut(pred, breaks = bins, include.lowest = TRUE, labels = labs)
+  frcst.cut[is.na(frcst.cut)] <- labs[1]
+  frcst.cut <- as.numeric(as.character(frcst.cut))
+  n <- length(labs)
+  lng <- aggregate(obs, by = list(frcst.cut), length)
+  med <- aggregate(obs, by = list(frcst.cut), median)
+  q1 <- aggregate(obs, by = list(frcst.cut), quantile, 0.25)
+  q2 <- aggregate(obs, by = list(frcst.cut), quantile, 0.75)
+  q1$x[lng$x <= thrs[1]] <- NA
+  q2$x[lng$x <= thrs[1]] <- NA
+  q3 <- aggregate(obs, by = list(frcst.cut), quantile, 0.1)
+  q4 <- aggregate(obs, by = list(frcst.cut), quantile, 0.9)
+  q3$x[lng$x <= thrs[2]] <- NA
+  q4$x[lng$x <= thrs[2]] <- NA
+  q5 <- aggregate(obs, by = list(frcst.cut), quantile, 0)
+  q6 <- aggregate(obs, by = list(frcst.cut), quantile, 1)
+  # q5$x[lng$x <= thrs[2]] <- NA
+  # q6$x[lng$x <= thrs[2]] <- NA
+  dev.off()
+  par(mar = c(5, 5, 5, 5))
+  plot(frcst.cut, obs.cut, xlim = c(lo, hi), ylim = c(lo, hi), main = main, ylab = ylab, xlab = xlab, type = "n", ...)
+  mtext(paste0("Sample Size ",length(pred)), side = 4, adj = 0)
+  legend.txt <- c("Median", "25th/75th Quantiles", "10th/90th Quantiles","0th/100th Quantiles")
+  legend(min(pred) + 0.50 * diff(range(pred)), min(obs) + 0.25 * diff(range(obs)), legend.txt, col = c(2, 3, 4, 24), lty = c(1, 2, 3, 4), lwd = 3, cex = 0.7)
+  abline(0, 1)
+
+  X <- as.numeric(as.character(med$Group.1))
+  lines(X, med$x, col = 2, lwd = 3)
+  lines(X, q1$x, col = 3, lty = 2, lwd = 3)
+  lines(X, q2$x, col = 3, lty = 2, lwd = 3)
+  lines(X, q3$x, col = 4, lty = 3, lwd = 3)
+  lines(X, q4$x, col = 4, lty = 3, lwd = 3)
+  lines(X, q5$x, col = "grey", lty = 4, lwd = 2)
+  lines(X, q6$x, col = "grey", lty = 4, lwd = 2)
+  # do not plot the histogram to the bottom
+  # pp <- par("plt")
+  # par(plt = c(pp[1], pp[2], 0.1, 0.2))#0.2))
+  # par(new = TRUE)
+  # hist(frcst.cut, breaks = bins, col = "blue", main = "", axes = FALSE, xlim = c(lo, hi), xlab = " ", ylab = " ")
+  # axis(4, line = 0)
+
+
+}
+
+
 ## PLOTTING FUNCTIONS TO BE ADDED LATER
 # 1) plot_points_on_a_map2 The same function with histogram included and legend outside the plotting area.
 # 2) Boxplot with distribution (here, piirrettava3 is a 2d data frame with dimension names of variable and probability)

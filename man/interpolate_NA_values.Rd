@@ -11,9 +11,9 @@ Interpolate_timeseries(data_to_be_interpolated, interpolation_method, maximum_ga
 
 \item{interpolation_method}{The selected interpolation method. ("repeat_previous","linear_interp","spline_interp","no_interp") are supported.}
 
-\item{maxgap}{Maximum gap (number of consecutive NA-values) allowed, which still is being interpolated}
-
 \item{...}{Possible additional parameters passed to zoo-package interpolation functions}
+
+\item{maxgap}{Maximum gap (number of consecutive NA-values) allowed, which still is being interpolated}
 }
 \value{
 Interpolated time series of same size as the input data.
