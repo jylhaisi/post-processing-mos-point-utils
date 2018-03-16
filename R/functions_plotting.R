@@ -27,7 +27,7 @@ plot_points_on_map <- function(plot_data,plot_data_area,breaks,colorscale,point_
   par(mar=c(1.7,1,4,1),xpd=FALSE)
   plotvar <- plot_data[,1]
   tplot <- plot(plot_data_area[,2], plot_data_area[,3], axes=FALSE, cex=.5, type="n", xlab="", ylab="", main=plotting_title)
-  map("world", add=TRUE, lwd=.5, col="grey95", fill=TRUE)
+  maps::map("world", add=TRUE, lwd=.5, col="grey95", fill=TRUE)
   if (colorscale != "points") {
     # Define number of colours to be used in plot
     nclr <- (length(breaks) - 1)
